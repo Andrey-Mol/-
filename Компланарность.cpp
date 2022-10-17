@@ -2,19 +2,15 @@
 #include <string>
 using namespace std;
 
+//размер определителя смешанного произведения
+const int a = 3;
 
-//размер матрицы
-const int n = 3;
-
-//объявление квадратной матрицы 3x3 и заполнение нулями:
-int matrix[n][n] = {};
-
-//создание промежуточной матрицы для вычисления всех определителей:
-int temp_matrix[n][n];
+//объявление определителя 
+int matrix[a][a] = {};
 
 //выбор фигуры
 int f() {
-	cout << "Выберите необходимую фигуру: Тетраэдр - t  Параллелепипед - p \n";
+	cout << "Выберите необходимую фигуру: Тетраэдр - t  Параллелепипед - p \n\n";
 	float fig = 0;
 	char k;
 	while (fig == 0) {
@@ -32,59 +28,54 @@ int f() {
 	return fig;
 }
 
-//ввод данных в матрицу 3x3
-void entering_coef() {
-	char answer = ' ';
-	while (answer != 'y')
+//ввод данных в определитель
+void opred() {
+	char user_answer = ' ';
+	while (user_answer != 'y')
 	{
 		cout << "Введите координаты векторов, образующих фигуру, для определения её объёма. Формат данных: \n \n{Ax; Ay; Az} \n{Bx; By; Bz} \n{Cx; Cy; Cz}\n \
-		(Без разделительных знаков и скобок!)\n";
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < n; ++j) {
+		(Без разделительных знаков и скобок!)\n \n";
+		for (int i = 0; i < a; ++i) {
+			for (int j = 0; j < a; ++j) {
 				cin >> matrix[i][j];
 			}
 		}
-		cout << "Правильно ли введены данные?: y/n \n";
-		for (int i = 0; i < n; ++i) {
+		cout << "\nПравильно ли введены данные?: y/n \n \n";
+		for (int i = 0; i < a; ++i) {
 			cout << "{ ";
-			for (int j = 0; j < n; ++j) {
+			for (int j = 0; j < a; ++j) {
 				cout << matrix[i][j] << " ";
 			}
 			cout << "}" << endl;
 		}
-		cin >> answer;
-
+		cout << "\n";
+		cin >> user_answer;
 	}
-	for (int i = 0; i < n; ++i) {
-		for (int j = 0; j < n; ++j) {
-			temp_matrix[i][j] = matrix[i][j];
-		}
-	}
+	
 }
 
-//нахождения определителя матрицы 3x3
-int determinant(int matr[n][n]) {
+//нахождения смешанного произведения
+int determinant(int matr[a][a]) {
 	int det = matr[0][0] * matr[1][1] * matr[2][2] - matr[0][0] * matr[1][2] * matr[2][1]
 		- matr[0][1] * matr[1][0] * matr[2][2] + matr[0][1] * matr[1][2] * matr[2][0]
 		+ matr[0][2] * matr[1][0] * matr[2][1] - matr[0][2] * matr[1][1] * matr[2][0];
 	return det;
 }
 
-
 int main() {
 	//для установки русского языка в выводе:
-	setlocale(LC_ALL, "Russian");
-	entering_coef();
-	cout << "---------------------------------------------" << endl;
-
-	int det_main = abs(determinant(temp_matrix));
+	setlocale(LC_ALL, "Rus");
+	cout << "\n";
+	opred();
+	cout << "\n";
+	int det_main = abs(determinant(matrix));
 	if (det_main == 0) {
-		cout << "Они компланарны";
+		cout << "\n---------------------\nОни компланарны\n---------------------";
 	}
 	else {
 		float v;
 		v = det_main;
-		cout << "Они не компланарны \n" << "Объём = " << v / f() << endl;
+		cout << "\n---------------------\nОни не компланарны \n" << "Объём = " << v / f() <<"\n---------------------" << endl;
 	}
 	return 0;
 }

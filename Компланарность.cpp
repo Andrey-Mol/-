@@ -6,7 +6,7 @@ using namespace std;
 const int a = 3;
 
 //объявление определителя 
-int matrix[a][a] = {};
+int opred_vect[a][a] = {};
 
 //выбор фигуры
 int f() {
@@ -28,7 +28,7 @@ int f() {
 	return fig;
 }
 
-//ввод данных в определитель
+//ввод координат в определитель
 void opred() {
 	char user_answer = ' ';
 	while (user_answer != 'y')
@@ -37,14 +37,14 @@ void opred() {
 		(Без разделительных знаков и скобок!)\n \n";
 		for (int i = 0; i < a; ++i) {
 			for (int j = 0; j < a; ++j) {
-				cin >> matrix[i][j];
+				cin >> opred_vect[i][j];
 			}
 		}
-		cout << "\nПравильно ли введены данные?: y/n \n \n";
+		cout << "\nКорректно ли получены данные?: y/n \n \n";
 		for (int i = 0; i < a; ++i) {
 			cout << "{ ";
 			for (int j = 0; j < a; ++j) {
-				cout << matrix[i][j] << " ";
+				cout << opred_vect[i][j] << " ";
 			}
 			cout << "}" << endl;
 		}
@@ -55,27 +55,36 @@ void opred() {
 }
 
 //нахождения смешанного произведения
-int determinant(int matr[a][a]) {
-	int det = matr[0][0] * matr[1][1] * matr[2][2] - matr[0][0] * matr[1][2] * matr[2][1]
-		- matr[0][1] * matr[1][0] * matr[2][2] + matr[0][1] * matr[1][2] * matr[2][0]
-		+ matr[0][2] * matr[1][0] * matr[2][1] - matr[0][2] * matr[1][1] * matr[2][0];
+int smesh_proizv(int opred[a][a]) {
+	int det = opred[0][0] * opred[1][1] * opred[2][2] - opred[0][0] * opred[1][2] * opred[2][1]
+		- opred[0][1] * opred[1][0] * opred[2][2] + opred[0][1] * opred[1][2] * opred[2][0]
+		+ opred[0][2] * opred[1][0] * opred[2][1] - opred[0][2] * opred[1][1] * opred[2][0];
 	return det;
 }
 
 int main() {
 	//для установки русского языка в выводе:
 	setlocale(LC_ALL, "Rus");
+	//работа основного алгоритма
 	cout << "\n";
 	opred();
 	cout << "\n";
-	int det_main = abs(determinant(matrix));
+	int det_main = abs(smesh_proizv(opred_vect));
 	if (det_main == 0) {
-		cout << "\n---------------------\nОни компланарны\n---------------------";
+		cout << "\n---------------------\nВекторы компланарны\n---------------------";
 	}
 	else {
 		float v;
 		v = det_main;
-		cout << "\n---------------------\nОни не компланарны \n" << "Объём = " << v / f() <<"\n---------------------" << endl;
+		int figura;
+		figura = f();
+		cout << "\n---------------------\nВекторы не компланарны \n" << endl;
+		if (figura == 1) {
+			cout  << "Объём параллелепипеда = " << v / figura << "\n---------------------" << endl;
+		}
+		else {
+			cout << "Объём тетраэдра = " << v / figura << "\n---------------------" << endl;
+		}
 	}
 	return 0;
 }
